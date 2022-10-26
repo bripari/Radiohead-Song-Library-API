@@ -1,14 +1,6 @@
-//Housekeeping
-const express = require('express')
-const app = express()
 
-const PORT = 8000
-const cors = require('cors')
-
-
-
-//Songs object
-const songs = {
+{
+    "type": "module",
     "15step": {
         "title": "15 Step",
         "album": "In Rainbows",
@@ -1000,37 +992,3 @@ const songs = {
         "releaseYear": "1994"
     }
 }
-
-//MIDDLEWARE
-app.use(express.static(__dirname + '/public'));
-app.use(cors())
-
-
-//Serve API homepage
-app.get('/', (req,res) => {
-    res.sendFile(__dirname + '/index.html')
-})
-//Full song list endpoint
-app.get('/api', (req,res) => {
-    res.json(songs)
-    
-})
-//Specific song endpoint
-app.get('/api/:name', (req,res) => {
-    const songName = req.params.name.toLowerCase().replace(/([^A-Z])/gi,"")
-    res.json(songs[songName])
-    
-})
-//Create Array to select random Song of the Day
-const arrFromObj = Object.keys(songs)
-
-
-//Song of the Day Endpoint
-app.get('/sotd', (req,res) => {
-    let daily = arrFromObj[Math.floor(Math.random()*arrFromObj.length)]
-    res.json(songs[daily])
-})
-//Listen
-app.listen(process.env.PORT || PORT, () =>{
-    console.log(`Server is running on port ${PORT}`)
-})
